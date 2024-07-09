@@ -3,27 +3,23 @@ terraform {
 
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = ">= 3.43.0"
+      source  = "hashicorp/azurerm"
+      version = ">= 3.43.0"
     }
   }
 }
 
-locals {
-  tags = {
-    "Environment" = var.environment
-  }
-}
+
 
 resource "azurerm_storage_account" "securestorage" {
-    resource_group_name = var.resource_group_name
-    location = var.location
-    name = var.storage_account_name
-    account_tier = "Standard"
-#Explain that modules should be opinonated
-#Explain conditional statements
-    account_replication_type = var.environment == "Production" ? "GRS" : "LRS"
-    public_network_access_enabled = false
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  name                = var.storage_account_name
+  account_tier        = var.account_tier
+  #Explain that modules should be opinonated
+  #Explain conditional statements
 
-   tags = local.tags
+  public_network_access_enabled = false
+
+  account_replication_type = var.account_replication_type
 }
